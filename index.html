@@ -1,315 +1,175 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>GEMINI — Geothermal Energy Research Prototype</title>
-<style>
-:root {
-  --site-primary: #123f3b;
-  --site-secondary: #d9eee6;
-  --site-background: #f7f8f4;
-  --site-on-primary: #ffffff;
-  --site-on-secondary: #173d38;
-  --site-on-background: #172d2a;
-  --site-font-body: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --site-font-heading: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --site-heading-scale: 1;
-  --site-spacing-scale: 1;
-  --site-radius-scale: 1;
-  --site-decoration-opacity: 1;
-  color-scheme: light dark;
-}
-* { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-body { margin: 0; font-family: var(--site-font-body); background: var(--site-background); color: var(--site-on-background); }
-#app { min-height: 100vh; width: 100%; background-color: light-dark(var(--site-background), #111c1b); color: light-dark(var(--site-on-background), #e8f0ec); border-radius: 0; }
-button, input, select { font: inherit; }
-a { color: inherit; }
-.top-note { background: #e8b45e; color: #28271f; text-align: center; padding: 8px 16px; font-size: 12px; letter-spacing: .04em; font-weight: 700; }
-header { position: sticky; top: 0; z-index: 10; background: light-dark(rgba(248,247,239,.98), rgba(17,28,27,.97)); backdrop-filter: blur(12px); border-bottom: 1px solid light-dark(#dce4de,#2a3a36); }
-.nav { max-width: none; margin: auto; min-height: 140px; display: flex; align-items: center; justify-content: space-between; padding: 20px 46px; gap: 28px; }
-.brand { display: flex; align-items: center; gap: 24px; font-weight: 850; letter-spacing: .08em; color: light-dark(#123f3b,#cce8dc); text-decoration:none; flex-shrink:0; }
-.gemini-logo { display:block; width:260px; max-width:100%; height:auto; object-fit:contain; }
-.gemini-wordmark { display:inline-flex; align-items:center; gap:12px; color:light-dark(#147d7a,#5dbba5); }
-.gemini-logo-mark { width:58px; height:66px; flex:0 0 auto; }
-.gemini-logo-type { display:flex; flex-direction:column; gap:1px; line-height:1; }
-.gemini-logo-name { font-size:52px; line-height:.9; font-weight:950; letter-spacing:-.065em; color:light-dark(#147d7a,#5dbba5); }
-.gemini-logo-tagline { margin-top:6px; font-size:12px; line-height:1.25; font-weight:650; letter-spacing:.015em; color:light-dark(#5dbba5,#5dbba5); white-space:nowrap; }
-.brand-descriptor { margin:0; color:light-dark(#58655e,#c0d0c7); font-size:24px; font-weight:450; letter-spacing:.055em; white-space:nowrap; }
-.footer-wordmark .gemini-logo-name { color:#147d7a; }
-.footer-wordmark .gemini-logo-tagline { color:#5dbba5; }
-.brand-mark { width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; background: var(--site-primary); color: white; }
-.brand-mark svg { width: 23px; height: 23px; }
-.brand small { display: block; font-size: 9px; font-weight: 600; letter-spacing: .12em; margin-top: 2px; opacity: .75; }
-.nav-links { display: flex; gap: 28px; align-items: center; }
-.nav-links button { border: 0; background: transparent; color: inherit; padding: 10px 0; border-radius: 0; cursor: pointer; font-size: 25px; font-weight: 550; letter-spacing:-.035em; white-space:nowrap; }
-.nav-links button:hover, .nav-links button.active { background: transparent; color: #f26b32; }
-.nav-cta { background: var(--site-primary)!important; color: white!important; padding: 11px 16px!important; }
-.menu-toggle { display:none; border: 1px solid #9ab5a9; background: transparent; color: inherit; padding: 8px 12px; border-radius: 8px; }
-main { max-width: 1200px; margin: auto; padding: 0 28px 60px; }
-.page { display:none; animation: appear .25s ease; }
-.page.active { display:block; }
-@keyframes appear { from { opacity:0; transform:translateY(5px) } to { opacity:1; transform:translateY(0) } }
-.hero { margin-top: 26px; min-height: 480px; border-radius: calc(24px * var(--site-radius-scale)); overflow: hidden; position: relative; background: #123f3b; color: #fff; display: grid; grid-template-columns: 1.08fr .92fr; }
-.hero-copy { padding: 62px 50px; align-self: center; position: relative; z-index: 1; }
-.eyebrow { text-transform: uppercase; letter-spacing: .16em; font-size: 11px; font-weight: 800; color: #b9dfcf; display:flex; gap:10px; align-items:center; }
-.eyebrow:before { content:""; width:26px; height:2px; background:#e8b45e; display:inline-block; }
-h1,h2,h3 { font-family: var(--site-font-heading); letter-spacing: -.04em; }
-h1 { font-size: calc(clamp(40px,5vw,66px) * var(--site-heading-scale)); line-height: .99; margin: 22px 0; max-width: 620px; }
-.hero-copy p { font-size: 16px; line-height: 1.7; color: #d6e6df; max-width: 510px; }
-.actions { display:flex; flex-wrap:wrap; gap: 12px; margin-top: 28px; }
-.btn { border: 1px solid transparent; border-radius: 999px; padding: 13px 19px; cursor:pointer; font-size: 13px; font-weight: 750; transition: transform .2s, background .2s; }
-.btn:hover { transform: translateY(-2px); }
-.btn-light { background:#e8b45e; color:#1d302a; }
-.btn-outline { background:transparent; border-color:#8baea0; color:white; }
-.hero-art { position:relative; min-height: 400px; background: radial-gradient(ellipse at 55% 45%, #326a5b 0%, #1d5148 35%, #123f3b 70%); overflow:hidden; }
-.hero-art:before { content:""; position:absolute; inset:-15%; opacity:var(--site-decoration-opacity); background: repeating-radial-gradient(ellipse at 58% 48%, transparent 0 25px, rgba(200,231,217,.17) 26px 27px, transparent 28px 43px); transform: rotate(-18deg) scale(1.2); }
-.earth { position:absolute; width:350px; height:350px; border-radius:50%; left:50%; top:50%; transform:translate(-43%,-45%); background:linear-gradient(145deg,#e8b45e 0 12%,#a66f43 12% 20%,#8d5e4a 20% 28%,#e2bd8b 28% 37%,#5e8976 37% 44%,#d7e4d4 44% 48%,#2e6656 48% 100%); box-shadow: inset -22px -20px 50px #0d302d, 0 30px 90px #092f2b; opacity:.95; }
-.earth:after { content:""; position:absolute; inset:16%; border-radius:50%; border:1px solid rgba(255,255,255,.5); box-shadow:0 0 0 22px rgba(255,255,255,.04),0 0 0 44px rgba(255,255,255,.04); }
-.drill { position:absolute; height: 270px; width: 3px; background:#f7e2a8; left:50%; top:10%; transform:rotate(15deg); box-shadow:0 0 18px #e8b45e; }
-.drill:before { content:""; position:absolute; top:45px; left:-5px; height:10px; width:13px; background:#f7e2a8; border-radius:2px; }
-.art-label { position:absolute; bottom:25px; right:25px; border:1px solid rgba(255,255,255,.25); background:rgba(9,40,35,.65); backdrop-filter:blur(8px); border-radius:12px; padding:13px 16px; font-size:11px; letter-spacing:.08em; text-transform:uppercase; }
-.art-label strong { display:block; font-size:19px; letter-spacing:-.02em; margin-top:5px; }
-.stats { display:grid; grid-template-columns:repeat(4,1fr); border-bottom:1px solid #dbe4de; padding:27px 0; gap:20px; }
-.stat { padding: 3px 18px; border-left:2px solid #d5a14b; }
-.stat strong { display:block; font-size:29px; letter-spacing:-.05em; color:light-dark(#164b41,#b9dfcf); }
-.stat span { display:block; font-size:11px; color:light-dark(#62756e,#a3b8af); margin-top:4px; }
-.section { padding: 64px 0 14px; }
-.project-timeline { margin-top: 34px; padding: 28px; border: 1px solid light-dark(#dfe7e1,#2b3e37); border-radius: 18px; background: light-dark(#fff,#1b2926); }
-.timeline-heading { display:flex; justify-content:space-between; align-items:end; gap:16px; margin-bottom:24px; }
-.timeline-heading h2 { font-size:clamp(24px,3vw,34px); }
-.timeline-heading p { margin:0; max-width:420px; font-size:13px; line-height:1.6; color:light-dark(#61716a,#a7b7b0); }
-.timeline-track { position:relative; display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:8px; margin:8px 0 24px; }
-.timeline-track:before { content:""; position:absolute; top:19px; left:10%; right:10%; height:3px; background:light-dark(#dce7df,#344941); }
-.timeline-track:after { content:""; position:absolute; top:19px; left:10%; width:calc(80% * .52); height:3px; background:#d5a14b; pointer-events:none; }
-.timeline-year { position:relative; z-index:1; display:flex; flex-direction:column; align-items:center; gap:9px; padding:0 2px; border:0; background:transparent; color:inherit; cursor:pointer; }
-.timeline-dot { width:38px; height:38px; display:grid; place-items:center; border-radius:50%; border:2px solid light-dark(#cbd9d0,#40564b); background:light-dark(#fff,#1b2926); color:light-dark(#48685b,#b9cfc2); font-size:12px; font-weight:850; transition:transform .18s,background .18s,border-color .18s; }
-.timeline-year:hover .timeline-dot { transform:translateY(-2px); }
-.timeline-year[aria-pressed="true"] .timeline-dot { background:#123f3b; color:#fff; border-color:#e8b45e; box-shadow:0 0 0 4px rgba(232,180,94,.2); }
-.timeline-year.done .timeline-dot { background:#d9eee6; border-color:#6e9b86; color:#174d40; }
-.timeline-year.current .timeline-dot { border:3px solid #d5a14b; }
-.timeline-year-label { font-size:13px; font-weight:800; }
-.timeline-year-status { font-size:10px; text-align:center; color:light-dark(#74867b,#a7b7b0); }
-.timeline-detail { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:20px; align-items:center; padding:20px 22px; border-radius:13px; background:light-dark(#edf4ef,#22352f); }
-.timeline-detail h3 { margin:0 0 6px; font-size:20px; }
-.timeline-detail p { margin:0; font-size:13px; line-height:1.65; color:light-dark(#52695e,#c0d0c7); }
-.timeline-phase { display:inline-block; margin-bottom:8px; color:light-dark(#326b56,#b9dfcf); font-size:10px; font-weight:850; text-transform:uppercase; letter-spacing:.12em; }
-.timeline-progress { min-width:120px; text-align:right; }
-.timeline-progress strong { display:block; font-size:24px; color:light-dark(#164b41,#d5e8df); }
-.timeline-progress span { font-size:10px; color:light-dark(#61716a,#a7b7b0); }
-.section-head { display:flex; justify-content:space-between; align-items:end; gap:20px; margin-bottom:24px; }
-.kicker { color:#7b8c81; font-size:11px; text-transform:uppercase; letter-spacing:.15em; font-weight:800; }
-h2 { font-size: calc(clamp(28px,3.5vw,43px) * var(--site-heading-scale)); line-height:1.08; margin:10px 0 0; }
-.section-head p { max-width:420px; line-height:1.65; color:light-dark(#61716a,#a7b7b0); font-size:14px; margin:0; }
-.grid-3 { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
-.card { background:light-dark(#fff,#1b2926); border:1px solid light-dark(#dfe7e1,#2b3e37); border-radius:calc(16px * var(--site-radius-scale)); overflow:hidden; }
-.card-body { padding:22px; }
-.card .tag { display:inline-block; color:#276c5a; background:#e3f2e9; padding:6px 9px; border-radius:999px; font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:.08em; }
-.card h3 { font-size:22px; line-height:1.15; margin:14px 0 9px; }
-.card p { color:light-dark(#62736b,#a7b7b0); font-size:13px; line-height:1.65; margin:0 0 18px; }
-.text-link { background:transparent; border:0; padding:0; color:light-dark(#1c6555,#b9dfcf); font-weight:800; cursor:pointer; font-size:12px; }
-.text-link span { padding-left:5px; }
-.feature-visual { height:150px; background:linear-gradient(140deg,#b6d9c9,#4f8d78); position:relative; overflow:hidden; }
-.feature-visual.geology { background:linear-gradient(160deg,#b9d4c5,#6a9a85 52%,#d4ad70 52%,#a06d49 70%,#274e43 70%); }
-.feature-visual.geology:after { content:""; position:absolute; width:170%; height:2px; background:rgba(255,255,255,.5); top:48%; left:-20%; transform:rotate(-14deg); box-shadow:0 17px rgba(255,255,255,.25),0 -22px rgba(255,255,255,.22); }
-.feature-visual.building { background:linear-gradient(135deg,#d5e6dc,#6c9a88); }
-.building-shape { position:absolute; bottom:0; left:22%; width:56%; height:74%; background:#f1f2e8; clip-path:polygon(0 15%,100% 0,100% 100%,0 100%); box-shadow:0 0 0 1px #fff; }
-.building-shape:after { content:""; position:absolute; inset:22% 10%; background:repeating-linear-gradient(90deg,#3d6b5c 0 8px,transparent 8px 21px); }
-.feature-visual.community { background:radial-gradient(circle at 25% 80%,#d9b36f 0 10%,transparent 10.5%),radial-gradient(circle at 60% 45%,#f0d9a4 0 15%,transparent 15.5%),linear-gradient(130deg,#2e6a58,#a9cdb8); }
-.feature-visual.community:after { content:""; position:absolute; inset:30% 10% 0; border-top:3px solid rgba(255,255,255,.6); transform:skewY(-13deg); }
-.split { display:grid; grid-template-columns: .9fr 1.1fr; gap:40px; align-items:center; }
-.info-panel { padding:34px; border-radius:20px; background:var(--site-secondary); color:var(--site-on-secondary); }
-.info-panel h3 { font-size:25px; margin:0 0 12px; }
-.info-panel p { font-size:14px; line-height:1.7; }
-.bullet-list { display:grid; gap:14px; padding:0; margin:24px 0 0; list-style:none; }
-.bullet-list li { display:flex; gap:12px; font-size:13px; line-height:1.5; }
-.check { width:22px; height:22px; border-radius:50%; background:#b9dccb; display:grid; place-items:center; flex-shrink:0; color:#184d40; font-size:12px; font-weight:900; }
-.page-intro { padding:62px 0 32px; max-width:760px; }
-.page-intro h1 { color:light-dark(#123f3b,#cce8dc); font-size:calc(clamp(38px,5vw,58px) * var(--site-heading-scale)); }
-.page-intro p { font-size:16px; line-height:1.75; color:light-dark(#61716a,#a7b7b0); }
-.filterbar { display:flex; gap:12px; flex-wrap:wrap; align-items:center; padding:18px; background:light-dark(#edf2ed,#1b2926); border-radius:14px; margin:20px 0 24px; }
-.searchbox { flex:1; min-width:210px; position:relative; }
-.searchbox input { width:100%; padding:12px 14px; border:1px solid light-dark(#ccd9d0,#40554c); border-radius:9px; background:light-dark(#fff,#111c1b); color:inherit; outline:none; }
-.searchbox input:focus { border-color:#4d8d77; box-shadow:0 0 0 3px rgba(77,141,119,.15); }
-.filterbar select { padding:12px 14px; border:1px solid light-dark(#ccd9d0,#40554c); border-radius:9px; background:light-dark(#fff,#111c1b); color:inherit; }
-.news-card .feature-visual { height:175px; }
-.news-meta { display:flex; gap:9px; align-items:center; font-size:11px; color:#7b8c81; }
-.news-meta .dot { width:4px; height:4px; border-radius:50%; background:#d5a14b; }
-.empty { grid-column:1/-1; padding:38px; text-align:center; color:#7b8c81; border:1px dashed #b7c9be; border-radius:14px; }
-.event-list { display:grid; gap:14px; }
-.event { display:grid; grid-template-columns:90px 1fr auto; gap:22px; align-items:center; padding:22px; border:1px solid light-dark(#dfe7e1,#2b3e37); border-radius:16px; background:light-dark(#fff,#1b2926); }
-.datebox { background:var(--site-secondary); color:var(--site-on-secondary); border-radius:12px; padding:12px 8px; text-align:center; }
-.datebox span { display:block; font-size:10px; letter-spacing:.1em; font-weight:850; text-transform:uppercase; }
-.datebox strong { display:block; font-size:28px; line-height:1.15; margin-top:3px; }
-.event h3 { margin:0 0 7px; font-size:20px; }
-.event p { margin:0; font-size:13px; color:light-dark(#61716a,#a7b7b0); line-height:1.6; }
-.event .btn { background:transparent; color:light-dark(#1c6555,#b9dfcf); border-color:#91b8a6; white-space:nowrap; }
-.footer { background:light-dark(#0d1917,#0c1917); color:#d5e8df; margin-top:70px; padding:0; }
-.funding-strip { min-height:220px; padding:42px clamp(20px,5vw,70px); background:#fbfaf5; color:#183a35; display:grid; grid-template-columns:minmax(250px,1.2fr) minmax(240px,1fr) minmax(220px,.9fr); gap:34px; align-items:center; }
-.funding-gemini { display:flex; align-items:center; gap:18px; }
-.funding-gemini .gemini-logo-mark { width:94px; height:110px; }
-.funding-gemini .gemini-logo-name { font-size:clamp(44px,5vw,72px); }
-.funding-gemini .gemini-logo-tagline { font-size:clamp(10px,1.1vw,15px); }
-.peaceplus { display:flex; align-items:center; gap:16px; color:#214b9b; }
-.peaceplus-stripes { display:flex; gap:5px; height:108px; transform:skew(-18deg); }
-.peaceplus-stripes span { display:block; width:15px; }
-.peaceplus-stripes span:nth-child(1){background:#2164b4}.peaceplus-stripes span:nth-child(2){background:#e33d38}.peaceplus-stripes span:nth-child(3){background:#d51d87}.peaceplus-stripes span:nth-child(4){background:#008b53}.peaceplus-stripes span:nth-child(5){background:#783b8e}
-.peaceplus strong { display:block; font-size:clamp(22px,2.8vw,39px); line-height:1; letter-spacing:-.045em; }
-.peaceplus .subline { font-size:clamp(11px,1.2vw,16px); font-weight:750; margin-top:8px; }
-.funded-by { margin-top:20px; font-size:12px; font-weight:800; }
-.funding-logos { display:flex; flex-wrap:wrap; gap:14px; align-items:center; margin-top:7px; font-size:12px; font-weight:750; color:#202824; }
-.funding-logos .eu-mark { background:#2450a3; color:#ffe26d; padding:8px 10px; font-size:18px; }
-.public-partners { display:grid; gap:26px; color:#203c36; }
-.public-partner { display:flex; align-items:center; gap:12px; font-family:Georgia,serif; font-size:17px; font-weight:700; line-height:1.1; }
-.public-partner .partner-emblem { font-family:serif; font-size:36px; color:#285c53; }
-.public-partner small { display:block; margin-top:6px; font-family:var(--site-font-body); font-size:9px; font-weight:500; }
-.footer-inner { max-width:1440px; margin:auto; display:grid; grid-template-columns:1.05fr 1fr .9fr; gap:clamp(24px,5vw,76px); align-items:start; padding:52px clamp(24px,4vw,52px) 40px; }
-.footer-brand .gemini-logo-mark { width:54px; height:62px; filter:grayscale(1) brightness(0) invert(1); }
-.footer-brand .gemini-logo-name { color:#fff; font-size:44px; }
-.footer-brand .gemini-logo-tagline { color:#fff; font-size:10px; }
-.footer h3 { margin:6px 0 14px; font-size:20px; letter-spacing:-.02em; color:#d4d6d1; }
-.footer p { font-size:16px; color:#c3c8c3; line-height:1.55; margin:0 0 10px; max-width:560px; }
-.footer a { text-underline-offset:4px; }
-.modal-backdrop { display:none; position:fixed; inset:0; z-index:30; background:rgba(3,20,16,.65); padding:20px; align-items:center; justify-content:center; }
-.modal-backdrop.open { display:flex; }
-.modal { width:min(560px,100%); background:light-dark(#fff,#1b2926); color:light-dark(#172d2a,#e8f0ec); border-radius:18px; padding:28px; position:relative; box-shadow:0 20px 80px rgba(0,0,0,.3); max-height:85vh; overflow:auto; }
-.modal h2 { font-size:30px; margin:10px 0 14px; }
-.modal p { line-height:1.7; font-size:14px; color:light-dark(#61716a,#a7b7b0); }
-.modal-close { position:absolute; right:18px; top:16px; border:0; background:light-dark(#edf2ed,#2a3a36); color:inherit; border-radius:50%; width:34px; height:34px; cursor:pointer; font-size:20px; }
-.modal-form { display:grid; gap:12px; margin-top:20px; }
-.modal-form input, .modal-form select { padding:12px; border-radius:9px; border:1px solid #aabdb2; background:transparent; color:inherit; }
-.form-status { display:none; padding:12px; background:var(--site-secondary); color:var(--site-on-secondary); border-radius:9px; font-size:13px; }
-.form-status.show { display:block; }
-@media (max-width:800px) { .hero { grid-template-columns:1fr; } .hero-copy { padding:42px 28px 20px; } .hero-art { min-height:290px; } .earth { width:250px;height:250px; } .drill { height:210px; } .stats { grid-template-columns:repeat(2,1fr); } .grid-3 { grid-template-columns:1fr 1fr; } .split { grid-template-columns:1fr; } .section-head { align-items:start; flex-direction:column; } }
-@media (max-width:800px) { .funding-strip { grid-template-columns:1fr 1fr; gap:28px; } .public-partners { grid-column:1/-1; grid-template-columns:1fr 1fr; } .footer-inner { grid-template-columns:1fr 1fr; } .footer-brand { grid-column:1/-1; } }
-@media (max-width:560px) { .nav { padding:12px 16px; } .menu-toggle { display:block; } .nav-links { display:none; position:absolute; left:0; right:0; top:68px; background:light-dark(#f7f8f4,#111c1b); padding:12px 16px 18px; border-bottom:1px solid #dce4de; flex-direction:column; align-items:stretch; } .nav-links.open { display:flex; } .nav-links button { text-align:left; } main { padding:0 16px 36px; } .hero { margin-top:16px; } .hero-copy { padding:35px 22px 12px; } .hero-art { min-height:240px; } .earth { width:210px;height:210px; } .stats { gap:14px 8px; } .stat { padding-left:12px; } .stat strong { font-size:25px; } .grid-3 { grid-template-columns:1fr; } .page-intro { padding-top:40px; } .event { grid-template-columns:66px 1fr; gap:14px; padding:15px; } .event .btn { grid-column:2; justify-self:start; } .datebox strong { font-size:24px; } .footer-inner { grid-template-columns:1fr; align-items:flex-start; } .footer-brand { grid-column:auto; } .funding-strip { grid-template-columns:1fr; padding:30px 22px; gap:28px; } .funding-gemini .gemini-logo-mark { width:66px;height:80px; } .peaceplus-stripes { height:80px; } .public-partners { grid-column:auto; grid-template-columns:1fr; } .footer p { font-size:14px; } .project-timeline { padding:18px 12px; } .timeline-heading { align-items:flex-start; flex-direction:column; } .timeline-track { gap:2px; } .timeline-dot { width:32px; height:32px; font-size:10px; } .timeline-track:before,.timeline-track:after { top:16px; } .timeline-year-status { font-size:9px; } .timeline-detail { grid-template-columns:1fr; padding:16px; } .timeline-progress { text-align:left; } }
-@media (prefers-color-scheme: dark) { .feature-visual.building .building-shape { background:#e2e8dc; } }
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GEMINI — Geothermal Energy for the Island of Ireland</title>
+  <meta name="description" content="GEMINI is a PEACEPLUS-funded project encouraging the uptake of shallow and deep geothermal energy across Ireland and Northern Ireland.">
+  <meta property="og:title" content="GEMINI — Geothermal Energy for the Island of Ireland">
+  <meta property="og:description" content="Encouraging the uptake of shallow and deep geothermal across the Island of Ireland.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/img/hero-fieldwork.jpg">
+  <link rel="icon" type="image/png" href="assets/img/favicon.png">
+  <link rel="apple-touch-icon" href="assets/img/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap">
+  <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body>
-<div id="app">
-  <div class="top-note">WEBSITE CONCEPT · INTERACTIVE PROTOTYPE · NOT THE OFFICIAL GEMINI WEBSITE</div>
-  <header><nav class="nav" aria-label="Main navigation">
-    <a class="brand" href="#home" data-page="home" aria-label="GEMINI home"><span class="gemini-wordmark" aria-label="GEMINI — Geothermal Energy Momentum"><svg class="gemini-logo-mark" viewBox="0 0 52 60" role="img" aria-label="GEMINI layered geothermal symbol"><path d="M23 1H42Q46 1 49 7L51 13Q52 17 47 20L9 28Q3 29 2 24L1 20Q0 16 5 13L13 8Z" fill="#147d7a"/><path d="M3 31L44 23Q49 22 51 27L51 36Q50 40 45 42L8 50Q3 51 1 46L0 39Q0 34 3 31Z" fill="#5dbba5"/><path d="M3 51L37 45L50 49L50 54Q49 58 44 59H8Q3 59 1 55Z" fill="#a95a14"/></svg><span class="gemini-logo-type"><span class="gemini-logo-name">Gemini</span><span class="gemini-logo-tagline">Geothermal Energy Momentum</span></span></span><span class="brand-descriptor">GEOTHERMAL · ISLAND OF IRELAND</span></a>
-    <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation">Menu ☰</button>
-    <div class="nav-links" id="navLinks"><button class="active" data-page="home">Home</button><button data-page="events">News &amp; Events</button></div>
-  </nav></header>
-  <main>
-    <section class="page active" id="home">
-      <div class="hero">
-        <div class="hero-copy"><div class="eyebrow">A shared energy future</div><h1>Unlocking the heat beneath our feet.</h1><p>Exploring the potential of geothermal energy across the island of Ireland — through research, real-world demonstration, and collaboration.</p><div class="actions"><button class="btn btn-light" data-goto="about">Explore the project ↗</button><button class="btn btn-outline" data-goto="news">Latest research &amp; news</button></div></div>
-        <div class="hero-art" aria-label="Abstract illustration of the Earth's layers and a geothermal borehole"><div class="earth"></div><div class="drill"></div><div class="art-label">Heat from the Earth<strong>Local. Reliable. Low-carbon.</strong></div></div>
-      </div>
-      <div class="stats"><div class="stat"><strong>2024–28</strong><span>Project timeline</span></div><div class="stat"><strong>15</strong><span>Cross-border project partners</span></div><div class="stat"><strong>4+</strong><span>Demonstration and investigation strands</span></div><div class="stat"><strong>All-island</strong><span>Shared research and learning</span></div></div>
-      <section class="project-timeline" aria-labelledby="timelineTitle">
-        <div class="timeline-heading"><div><div class="kicker">September 2024 – September 2028</div><h2 id="timelineTitle">The project journey</h2></div><p>Select a year to explore the four-year journey and see where GEMINI is on its timeline.</p></div>
-        <div class="timeline-track" role="group" aria-label="Select a project year">
-          <button class="timeline-year done" data-timeline-year="2024" aria-pressed="false"><span class="timeline-dot">✓</span><span class="timeline-year-label">2024</span><span class="timeline-year-status">Launch</span></button>
-          <button class="timeline-year done" data-timeline-year="2025" aria-pressed="false"><span class="timeline-dot">✓</span><span class="timeline-year-label">2025</span><span class="timeline-year-status">Build evidence</span></button>
-          <button class="timeline-year current" data-timeline-year="2026" aria-pressed="true"><span class="timeline-dot">●</span><span class="timeline-year-label">2026</span><span class="timeline-year-status">Current year</span></button>
-          <button class="timeline-year" data-timeline-year="2027" aria-pressed="false"><span class="timeline-dot">4</span><span class="timeline-year-label">2027</span><span class="timeline-year-status">Apply learning</span></button>
-          <button class="timeline-year" data-timeline-year="2028" aria-pressed="false"><span class="timeline-dot">5</span><span class="timeline-year-label">2028</span><span class="timeline-year-status">Share outcomes</span></button>
-        </div>
-        <div class="timeline-detail" aria-live="polite"><div><span class="timeline-phase" id="timelinePhase">Current phase · Year 3 of 4</span><h3 id="timelineYearTitle">2026 — Research in progress</h3><p id="timelineYearCopy">GEMINI is in its third project year: connecting investigations, demonstrations and partner learning to build a stronger evidence base. Update this summary with the latest confirmed project milestones.</p></div><div class="timeline-progress"><strong id="timelinePercent">52%</strong><span>of project duration elapsed</span></div></div>
-      </section>
-      <section class="section"><div class="section-head"><div><div class="kicker">What we're working towards</div><h2>From underground potential<br>to practical heat solutions.</h2></div><p>GEMINI brings together technical expertise, public bodies, communities and industry to build confidence in geothermal energy.</p></div>
-        <div class="grid-3">
-          <article class="card"><div class="feature-visual geology"></div><div class="card-body"><span class="tag">Research</span><h3>Understand our resources</h3><p>Build a stronger evidence base on the island's geology and the opportunities for shallow and deep geothermal systems.</p><button class="text-link" data-goto="about">How we work <span>→</span></button></div></article>
-          <article class="card"><div class="feature-visual building"><div class="building-shape"></div></div><div class="card-body"><span class="tag">Demonstration</span><h3>Learn from real places</h3><p>Explore how geothermal heating and cooling can work in public buildings, campuses and essential infrastructure.</p><button class="text-link" data-goto="news">Explore project updates <span>→</span></button></div></article>
-          <article class="card"><div class="feature-visual community"></div><div class="card-body"><span class="tag">People &amp; skills</span><h3>Grow a geothermal sector</h3><p>Support knowledge-sharing, skills development and community engagement to help turn research into action.</p><button class="text-link" data-goto="events">Meet and learn <span>→</span></button></div></article>
-        </div>
-      </section>
-      <section class="section split"><div><div class="kicker">Why geothermal?</div><h2>Energy from a source that's right here.</h2><p style="line-height:1.75;color:light-dark(#61716a,#a7b7b0);font-size:14px">Geothermal energy uses heat stored beneath the Earth's surface. Depending on local geology and system design, it can support efficient heating and cooling for buildings and heat networks.</p><button class="btn" style="background:var(--site-primary);color:white;margin-top:10px" data-goto="about">Discover GEMINI's aims ↗</button></div><div class="info-panel"><h3>Turning evidence into confidence</h3><p>The project is designed to share practical learning — from technical design and costs to planning, policy, skills and public engagement.</p><ul class="bullet-list"><li><span class="check">✓</span><span>De-risk geothermal projects through real-world evidence.</span></li><li><span class="check">✓</span><span>Develop guidance and knowledge that others can use.</span></li><li><span class="check">✓</span><span>Connect partners and communities across the island.</span></li></ul></div></section>
-    </section>
-    <section class="page" id="about">
-      <div class="page-intro"><div class="eyebrow" style="color:#4b826e">About the project</div><h1>Research that helps geothermal take root.</h1><p>GEMINI — Geothermal Energy Momentum on the Island of Ireland — is a cross-border initiative exploring how geothermal energy can contribute to a low-carbon future.</p></div>
-      <div class="split"><div class="info-panel"><div class="kicker" style="color:#4c7968">Our mission</div><h3>Build the evidence, skills and partnerships to move forward.</h3><p>Led by Codema, the project brings together organisations across Ireland and Northern Ireland to investigate geothermal opportunities, demonstrate technologies and share what works.</p></div><div><h2 style="font-size:31px">Three connected priorities</h2><ul class="bullet-list"><li><span class="check">01</span><span><strong>Technical confidence.</strong><br>Improve understanding of subsurface resources, system performance and delivery considerations.</span></li><li><span class="check">02</span><span><strong>Skills and policy.</strong><br>Support sector capacity, practical guidance, and informed decision-making.</span></li><li><span class="check">03</span><span><strong>People and place.</strong><br>Make space for public and community engagement in the energy transition.</span></li></ul></div></div>
-      <section class="section"><div class="section-head"><div><div class="kicker">A partnership approach</div><h2>Different expertise. Shared ambition.</h2></div><p>The project links research, public service, education, community engagement and technical delivery.</p></div><div class="grid-3"><article class="card"><div class="card-body"><span class="tag">Research &amp; geology</span><h3>Understand the subsurface</h3><p>Geological research and technical investigation help establish where geothermal systems may be viable and what needs to be understood.</p></div></article><article class="card"><div class="card-body"><span class="tag">Public infrastructure</span><h3>Test practical applications</h3><p>Demonstration settings can help reveal the design, operational and planning considerations for real buildings and services.</p></div></article><article class="card"><div class="card-body"><span class="tag">Knowledge exchange</span><h3>Share what is learned</h3><p>Resources, events and engagement help make technical learning useful to communities, decision-makers and the wider sector.</p></div></article></div></section>
-      <section class="section"><div class="info-panel"><div class="kicker">Project at a glance</div><h3>September 2024 – September 2028</h3><p>GEMINI is supported by the PEACEPLUS programme, managed by the Special EU Programmes Body (SEUPB). Codema is the lead partner.</p><button class="btn" style="background:var(--site-primary);color:white;margin-top:8px" id="partnerBtn">View project links ↗</button></div></section>
-    </section>
-    <section class="page" id="news">
-      <div class="page-intro"><div class="eyebrow" style="color:#4b826e">News &amp; insights</div><h1>Research, progress and perspectives.</h1><p>Follow project milestones, geothermal explainers and insights from the people working to understand the island's geothermal potential.</p></div>
-      <div class="filterbar"><div class="searchbox"><input id="newsSearch" type="search" placeholder="Search articles and updates…" aria-label="Search articles"></div><select id="newsCategory" aria-label="Filter by category"><option value="all">All topics</option><option value="Project update">Project updates</option><option value="Geothermal basics">Geothermal basics</option><option value="Research">Research</option><option value="Community">Community</option></select><span id="newsCount" style="font-size:12px;color:#7b8c81">6 stories</span></div>
-      <div class="grid-3" id="newsGrid">
-        <article class="card news-card" data-category="Project update" data-search="project launch geothermal breaks ground cross border"><div class="feature-visual geology"></div><div class="card-body"><div class="news-meta"><span>Project update</span><span class="dot"></span><span>November 2024</span></div><h3>GEMINI launches a new chapter for geothermal energy</h3><p>A cross-border partnership sets out to build practical knowledge and confidence in geothermal heating and cooling.</p><button class="text-link article-open" data-title="GEMINI launches a new chapter for geothermal energy" data-category="Project update" data-date="November 2024" data-copy="GEMINI brings together partners from across Ireland and Northern Ireland to investigate geothermal opportunities, demonstrate technologies and share learning. This prototype story summarises the project's public launch and its all-island ambition.">Read story <span>→</span></button></div></article>
-        <article class="card news-card" data-category="Geothermal basics" data-search="what is geothermal energy heating cooling earth"><div class="feature-visual community"></div><div class="card-body"><div class="news-meta"><span>Geothermal basics</span><span class="dot"></span><span>Explainer</span></div><h3>What do we mean by geothermal energy?</h3><p>A plain-language introduction to the heat stored beneath the Earth's surface and how it can be used.</p><button class="text-link article-open" data-title="What do we mean by geothermal energy?" data-category="Geothermal basics" data-date="Explainer" data-copy="Geothermal energy uses heat from within the Earth. Shallow systems commonly use ground-source heat pumps, while deeper resources may be considered for larger heating demands. Suitability depends on geology, design, local conditions and economics.">Read explainer <span>→</span></button></div></article>
-        <article class="card news-card" data-category="Research" data-search="deep geothermal grangegorman carbonate rock borehole research"><div class="feature-visual geology"></div><div class="card-body"><div class="news-meta"><span>Research</span><span class="dot"></span><span>Field focus</span></div><h3>Looking deeper: investigating geothermal potential</h3><p>Why understanding subsurface geology and fluid flow matters for future deep geothermal systems.</p><button class="text-link article-open" data-title="Looking deeper: investigating geothermal potential" data-category="Research" data-date="Field focus" data-copy="Deep geothermal investigations can improve understanding of subsurface formations, temperature and potential water flow. The evidence can help inform the technical design and future assessment of comparable sites. Details in this card are illustrative and should be replaced with approved project updates.">Read insight <span>→</span></button></div></article>
-        <article class="card news-card" data-category="Community" data-search="community engagement lough macnean conversations local people"><div class="feature-visual community"></div><div class="card-body"><div class="news-meta"><span>Community</span><span class="dot"></span><span>Engagement</span></div><h3>Making space for local knowledge</h3><p>Community conversations can help shape how geothermal opportunities are understood and explored.</p><button class="text-link article-open" data-title="Making space for local knowledge" data-category="Community" data-date="Engagement" data-copy="Community engagement is an important part of understanding local priorities and questions around energy projects. This sample story illustrates the type of content the site could host; replace with approved project reporting before publication.">Read story <span>→</span></button></div></article>
-        <article class="card news-card" data-category="Project update" data-search="skills training workforce geothermal sector jobs"><div class="feature-visual building"><div class="building-shape"></div></div><div class="card-body"><div class="news-meta"><span>Project update</span><span class="dot"></span><span>Skills</span></div><h3>Building the skills for a geothermal future</h3><p>Training, knowledge exchange and shared approaches can help strengthen the geothermal workforce.</p><button class="text-link article-open" data-title="Building the skills for a geothermal future" data-category="Project update" data-date="Skills" data-copy="A growing geothermal sector needs engineers, installers, drillers, planners and other specialists. Knowledge exchange and training can help build capacity and encourage consistent good practice across the island.">Read story <span>→</span></button></div></article>
-        <article class="card news-card" data-category="Research" data-search="technical guidance costs policy planning heat networks"><div class="feature-visual geology"></div><div class="card-body"><div class="news-meta"><span>Research</span><span class="dot"></span><span>Knowledge</span></div><h3>From demonstration to practical guidance</h3><p>How real-world evidence can support better planning, procurement and decision-making.</p><button class="text-link article-open" data-title="From demonstration to practical guidance" data-category="Research" data-date="Knowledge" data-copy="Lessons from demonstration projects can help decision-makers assess technical options, costs, procurement and planning. GEMINI's broader ambition is to make learning more accessible to those considering geothermal systems.">Read insight <span>→</span></button></div></article>
-      </div>
-    </section>
-    <section class="page" id="events">
-      <div class="page-intro"><div class="eyebrow" style="color:#4b826e">News &amp; events</div><h1>Meet, learn and exchange ideas.</h1><p>Find opportunities to hear from project partners, learn about geothermal technologies and take part in conversations about a low-carbon heat future.</p></div>
-      <div class="filterbar"><div class="searchbox"><input id="eventSearch" type="search" placeholder="Search events…" aria-label="Search events"></div><select id="eventType" aria-label="Filter events"><option value="all">All formats</option><option value="Webinar">Webinars</option><option value="Workshop">Workshops</option><option value="Conference">Conferences</option></select><span id="eventCount" style="font-size:12px;color:#7b8c81">3 listings</span></div>
-      <div class="event-list" id="eventList">
-        <article class="event" data-type="Webinar" data-search="geothermal basics webinar heating cooling introduction"><div class="datebox"><span>On demand</span><strong>↗</strong></div><div><div class="news-meta" style="margin-bottom:8px"><span>Webinar</span><span class="dot"></span><span>Introductory</span></div><h3>Geothermal energy: the essentials</h3><p>An introductory session exploring how geothermal heating and cooling works, where it can be used and the questions to ask.</p></div><button class="btn event-details" data-title="Geothermal energy: the essentials" data-copy="A proposed introductory webinar for building owners, public bodies, communities and anyone curious about geothermal energy. This is a sample listing for the prototype, not a confirmed event.">View details ↗</button></article>
-        <article class="event" data-type="Workshop" data-search="technical workshop project partners heat planning design"><div class="datebox"><span>Format</span><strong>01</strong></div><div><div class="news-meta" style="margin-bottom:8px"><span>Workshop</span><span class="dot"></span><span>Technical exchange</span></div><h3>From site assessment to system design</h3><p>A proposed knowledge-sharing workshop on early-stage assessment, delivery considerations and lessons from demonstration sites.</p></div><button class="btn event-details" data-title="From site assessment to system design" data-copy="A proposed workshop format for technical practitioners and project partners to exchange learning about geothermal site assessment and system design. Date, venue and registration details would be added once confirmed.">View details ↗</button></article>
-        <article class="event" data-type="Conference" data-search="conference community energy transition cross border geothermal"><div class="datebox"><span>Format</span><strong>02</strong></div><div><div class="news-meta" style="margin-bottom:8px"><span>Conference</span><span class="dot"></span><span>Public engagement</span></div><h3>Geothermal energy and the all-island transition</h3><p>A proposed event bringing together communities, researchers, policy teams and industry to discuss future opportunities.</p></div><button class="btn event-details" data-title="Geothermal energy and the all-island transition" data-copy="A proposed cross-sector event to discuss geothermal opportunities, community questions and the role of evidence in the all-island energy transition. This is a concept listing only; no event is confirmed.">View details ↗</button></article>
-      </div>
-      <div class="section"><div class="info-panel"><div class="kicker">Have a question?</div><h3>Want to hear about future updates?</h3><p>Use the contact form to register interest in project news, knowledge-sharing sessions or future events. This prototype form demonstrates the interaction only and does not send data.</p><button class="btn" style="background:var(--site-primary);color:white" id="interestBtn">Register your interest ↗</button></div></div>
-    </section>
-  </main>
-  <footer class="footer">
-    <div class="funding-strip" aria-label="Project partners and funders">
-      <div class="funding-gemini"><span class="gemini-wordmark" aria-label="GEMINI — Geothermal Energy Momentum"><svg class="gemini-logo-mark" viewBox="0 0 52 60" role="img" aria-label="GEMINI layered geothermal symbol"><path d="M23 1H42Q46 1 49 7L51 13Q52 17 47 20L9 28Q3 29 2 24L1 20Q0 16 5 13L13 8Z" fill="#147d7a"/><path d="M3 31L44 23Q49 22 51 27L51 36Q50 40 45 42L8 50Q3 51 1 46L0 39Q0 34 3 31Z" fill="#5dbba5"/><path d="M3 51L37 45L50 49L50 54Q49 58 44 59H8Q3 59 1 55Z" fill="#a95a14"/></svg><span class="gemini-logo-type"><span class="gemini-logo-name">Gemini</span><span class="gemini-logo-tagline">Geothermal Energy Momentum</span></span></span></div>
-      <div><div class="peaceplus"><div class="peaceplus-stripes" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div><div><strong>PEACEPLUS</strong><div class="subline">Northern Ireland – Ireland</div><div class="funded-by">Co-funded by the</div><div class="funding-logos"><span class="eu-mark">✦</span><span>European Union</span><span>♛ UK Government</span></div></div></div></div>
-      <div class="public-partners"><div class="public-partner"><span class="partner-emblem">✥</span><span>Northern Ireland Executive<small>www.northernireland.gov.uk</small></span></div><div class="public-partner"><span class="partner-emblem">♧</span><span>Rialtas na hÉireann<small>Government of Ireland</small></span></div></div>
-    </div>
-    <div class="footer-inner"><div class="footer-brand"><span class="gemini-wordmark footer-wordmark" aria-label="GEMINI — Geothermal Energy Momentum"><svg class="gemini-logo-mark" viewBox="0 0 52 60" role="img" aria-label="GEMINI layered geothermal symbol"><path d="M23 1H42Q46 1 49 7L51 13Q52 17 47 20L9 28Q3 29 2 24L1 20Q0 16 5 13L13 8Z" fill="#147d7a"/><path d="M3 31L44 23Q49 22 51 27L51 36Q50 40 45 42L8 50Q3 51 1 46L0 39Q0 34 3 31Z" fill="#5dbba5"/><path d="M3 51L37 45L50 49L50 54Q49 58 44 59H8Q3 59 1 55Z" fill="#e6e2b9"/></svg><span class="gemini-logo-type"><span class="gemini-logo-name">Gemini</span><span class="gemini-logo-tagline">Geothermal Energy Momentum</span></span></span><p>Encouraging the uptake of shallow and deep geothermal energy across the Island of Ireland.</p></div><div><h3>Funded by</h3><p>The PEACEPLUS Programme, managed by the Special EU Programmes Body (SEUPB).</p></div><div><h3>Contact</h3><p>Led by Codema · 01 707 9818</p><p><a href="https://www.geminigeothermal.com/" target="_blank" rel="noopener">geminigeothermal.com</a></p><p><a href="https://www.codema.ie/our-work/gemini/" target="_blank" rel="noopener">Codema project page ↗</a></p></div></div>
-  </footer>
-</div>
-<div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><div class="modal"><button class="modal-close" id="modalClose" aria-label="Close dialog">×</button><div class="kicker" id="modalKicker">GEMINI</div><h2 id="modalTitle">Get in touch</h2><div id="modalContent"><p>Use this form to demonstrate a contact interaction.</p></div></div></div>
-<script>
-const pages = [...document.querySelectorAll('.page')];
-const navButtons = [...document.querySelectorAll('[data-page]')];
-const navLinks = document.getElementById('navLinks');
-function showPage(id) { pages.forEach(p => p.classList.toggle('active', p.id === id)); navButtons.forEach(b => b.classList.toggle('active', b.dataset.page === id)); navLinks.classList.remove('open'); window.scrollTo({top:0,behavior:'smooth'}); }
-navButtons.forEach(b => b.addEventListener('click', () => showPage(b.dataset.page)));
-document.querySelectorAll('[data-goto]').forEach(b => b.addEventListener('click', () => showPage(b.dataset.goto)));
-document.getElementById('menuToggle').addEventListener('click', () => navLinks.classList.toggle('open'));
-const timelineContent = {
-  2024: {phase:'Project launch · Year 1 of 4', title:'2024 — Setting the foundations', copy:'The project began in September 2024, bringing partners together around a shared ambition for geothermal energy across the island of Ireland.', progress:'4%'},
-  2025: {phase:'Foundations and discovery · Year 2 of 4', title:'2025 — Building the evidence base', copy:'The early project period focuses on connecting expertise, shaping investigations and developing the knowledge needed to assess geothermal opportunities.', progress:'29%'},
-  2026: {phase:'Current phase · Year 3 of 4', title:'2026 — Research in progress', copy:'GEMINI is in its third project year: connecting investigations, demonstrations and partner learning to build a stronger evidence base. Update this summary with the latest confirmed project milestones.', progress:'52%'},
-  2027: {phase:'Application and exchange · Year 4 of 4', title:'2027 — Applying and sharing learning', copy:'The focus can shift toward bringing evidence together, exchanging practical lessons and supporting informed decisions about geothermal systems. Confirm specific milestones with the project team.', progress:'77%'},
-  2028: {phase:'Final project period · To September 2028', title:'2028 — Sharing outcomes', copy:'The project is scheduled to conclude in September 2028, with the final period providing an opportunity to communicate outcomes, resources and lessons learned.', progress:'100%'}
-};
-document.querySelectorAll('[data-timeline-year]').forEach(button => button.addEventListener('click', () => {
-  const item = timelineContent[button.dataset.timelineYear];
-  document.querySelectorAll('[data-timeline-year]').forEach(yearButton => yearButton.setAttribute('aria-pressed', String(yearButton === button)));
-  document.getElementById('timelinePhase').textContent = item.phase;
-  document.getElementById('timelineYearTitle').textContent = item.title;
-  document.getElementById('timelineYearCopy').textContent = item.copy;
-  document.getElementById('timelinePercent').textContent = item.progress;
-}));
-const backdrop = document.getElementById('modalBackdrop');
-const modalTitle = document.getElementById('modalTitle');
-const modalKicker = document.getElementById('modalKicker');
-const modalContent = document.getElementById('modalContent');
-function openModal(title, kicker, html) { modalTitle.textContent = title; modalKicker.textContent = kicker || 'GEMINI'; modalContent.innerHTML = html; backdrop.classList.add('open'); document.getElementById('modalClose').focus(); }
-function closeModal() { backdrop.classList.remove('open'); }
-document.getElementById('modalClose').addEventListener('click', closeModal);
-backdrop.addEventListener('click', e => { if (e.target === backdrop) closeModal(); });
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
-function contactForm() { openModal('Get in touch','CONTACT THE PROJECT', '<p>Interested in geothermal research, collaboration or future events? This demo form shows the proposed interaction. It will not send or store information.</p><form class="modal-form" id="demoForm"><input name="name" required placeholder="Your name" aria-label="Your name"><input name="email" type="email" required placeholder="Email address" aria-label="Email address"><select name="interest" aria-label="Area of interest"><option>General enquiry</option><option>Research and technical information</option><option>Events and knowledge exchange</option><option>Community engagement</option><option>Partnership opportunities</option></select><button class="btn" style="background:var(--site-primary);color:white" type="submit">Submit demo enquiry</button><div class="form-status" id="formStatus">Thanks — the demo interaction worked. No information has been sent or saved.</div></form>'); document.getElementById('demoForm').addEventListener('submit', e => { e.preventDefault(); document.getElementById('formStatus').classList.add('show'); }); }
-const contactButton = document.getElementById('contactBtn');
-if (contactButton) contactButton.addEventListener('click', contactForm);
-document.getElementById('interestBtn').addEventListener('click', contactForm);
-document.getElementById('partnerBtn').addEventListener('click', () => openModal('Project information','USEFUL LINKS', '<p>For verified information about GEMINI, visit the official project and lead-partner pages.</p><p><a href="https://www.geminigeothermal.com/blogs/" target="_blank" rel="noopener">GEMINI project website and blog ↗</a></p><p><a href="https://www.codema.ie/our-work/gemini/" target="_blank" rel="noopener">Codema: GEMINI overview ↗</a></p><p><a href="https://www.peaceplusni.com/" target="_blank" rel="noopener">PEACEPLUS programme ↗</a></p>'));
-document.querySelectorAll('.article-open').forEach(b => b.addEventListener('click', () => openModal(b.dataset.title, b.dataset.category + ' · ' + b.dataset.date, '<p>' + b.dataset.copy + '</p><p><em>Prototype content: replace with approved copy and verified publication details before launch.</em></p>')));
-document.querySelectorAll('.event-details').forEach(b => b.addEventListener('click', () => openModal(b.dataset.title, 'EVENT CONCEPT', '<p>' + b.dataset.copy + '</p><p><strong>Status:</strong> illustrative placeholder — not a confirmed event.</p><button class="btn" id="eventInterest" style="background:var(--site-primary);color:white">Register interest</button><div id="eventMsg" class="form-status" style="margin-top:12px">Interest interaction complete. No details have been sent or saved.</div>')));
-document.getElementById('newsSearch').addEventListener('input', filterNews);
-document.getElementById('newsCategory').addEventListener('change', filterNews);
-function filterNews() { const q = document.getElementById('newsSearch').value.toLowerCase(); const cat = document.getElementById('newsCategory').value; let n=0; document.querySelectorAll('#newsGrid .news-card').forEach(card => { const ok = card.dataset.search.includes(q) && (cat === 'all' || card.dataset.category === cat); card.style.display = ok ? '' : 'none'; if(ok)n++; }); document.getElementById('newsCount').textContent = n + (n===1?' story':' stories'); }
-document.getElementById('eventSearch').addEventListener('input', filterEvents);
-document.getElementById('eventType').addEventListener('change', filterEvents);
-function filterEvents() { const q = document.getElementById('eventSearch').value.toLowerCase(); const type = document.getElementById('eventType').value; let n=0; document.querySelectorAll('#eventList .event').forEach(card => { const ok = card.dataset.search.includes(q) && (type === 'all' || card.dataset.type === type); card.style.display = ok ? '' : 'none'; if(ok)n++; }); document.getElementById('eventCount').textContent = n + (n===1?' listing':' listings'); }
-backdrop.addEventListener('click', e => { if (e.target.id === 'eventInterest') document.getElementById('eventMsg').classList.add('show'); });
-</script>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
 
-<!--sites-preview-theme:start-->
-<style data-sites-preview-theme>:root{--site-radius-scale:1.75 !important}</style>
-<script type="application/json" data-sites-preview-theme>{"appearance":"custom","primary":"#123f3b","secondary":"#d9eee6","background":"#f7f8f4","typography":"original","spacing":null,"roundness":1.75,"headingScale":1,"decorationOpacity":1}</script>
-<!--sites-preview-theme:end-->
-</body></html>
+  <!-- GSI site shell -->
+  <header class="site-header">
+    <div class="container header-top">
+      <a class="site-name" href="https://gsi.ie/">Geological Survey Ireland</a>
+      <ul class="header-links">
+        <li><a href="https://gsi.ie/">Contact Us</a></li>
+        <li><a href="https://gsi.ie/" lang="ga">Gaeilge</a></li>
+      </ul>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+    </div>
+    <nav class="main-nav container" id="main-nav" aria-label="Main">
+      <ul>
+        <li><a href="https://gsi.ie/">Data and Maps</a></li>
+        <li><a href="https://gsi.ie/">Topics</a></li>
+        <li><a href="https://gsi.ie/programmes-projects/" aria-current="true">Programmes</a></li>
+        <li><a href="https://gsi.ie/">Research</a></li>
+        <li><a href="https://gsi.ie/">Education</a></li>
+        <li><a href="https://gsi.ie/">Publications</a></li>
+        <li><a href="https://gsi.ie/">Events News</a></li>
+        <li><a href="https://gsi.ie/">More on Us</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <nav class="breadcrumb container" aria-label="Breadcrumb">
+    <ol>
+      <li><a href="https://gsi.ie/">Geological Survey Ireland</a></li>
+      <li><a href="https://gsi.ie/programmes-projects/">Programmes &amp; Projects</a></li>
+      <li><a href="https://gsi.ie/programmes-projects/geothermal-energy/">Geothermal Energy</a></li>
+      <li><span aria-current="page">GEMINI</span></li>
+    </ol>
+  </nav>
+
+  <div class="container layout">
+    <aside class="side-menu" aria-labelledby="side-title">
+      <h2 class="side-title" id="side-title">Geothermal Energy</h2>
+      <ul>
+        <li class="side-label">Projects</li>
+        <li class="side-current">
+          <a href="./" aria-current="page">GEMINI</a>
+          <ul>
+            <li><a href="#demonstration-sites">Demonstration sites</a></li>
+          </ul>
+        </li>
+        <li><a href="https://gsi.ie/programmes-projects/geothermal-energy/">Geothermal Suitability Maps</a></li>
+        <li><a href="https://gsi.ie/programmes-projects/geothermal-energy/">National Geothermal Database</a></li>
+        <li><a href="https://gsi.ie/programmes-projects/geothermal-energy/">A Homeowner's Guide to Geothermal</a></li>
+        <li><a href="https://gsi.ie/programmes-projects/geothermal-energy/">GeoERA MUSE</a></li>
+        <li><a href="https://gsi.ie/programmes-projects/geothermal-energy/">HotLime</a></li>
+        <li><a href="https://gsi.ie/programmes-projects/geothermal-energy/">Activities</a></li>
+        <li><a href="https://gsi.ie/programmes-projects/geothermal-energy/">Data &amp; Maps</a></li>
+        <li><a href="https://gsi.ie/programmes-projects/geothermal-energy/">Geothermal research</a></li>
+        <li><a href="https://gsi.ie/programmes-projects/geothermal-energy/">Related News</a></li>
+        <li><a href="https://gsi.ie/programmes-projects/geothermal-energy/">Related Publications</a></li>
+      </ul>
+      <img class="side-logo" src="assets/img/gemini-logo.png" alt="Gemini — Geothermal Energy Momentum" width="720" height="191">
+    </aside>
+
+    <!-- GEMINI page -->
+    <main class="content" id="main-content">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-panel">
+          <div class="hero-meta">
+            <p class="eyebrow">GEMINI Project - an all island initiative</p>
+            <p class="eyebrow">PEACEPLUS funded · 2024 – 2028</p>
+          </div>
+          <h1 id="hero-title">Geothermal Energy Momentum on the Island of Ireland.</h1>
+          <p>A cross-border initiative showing how geothermal energy can play a practical, scalable role in decarbonising heat — across four demonstration sites.</p>
+          <a class="button" href="#demonstration-sites">Demonstration sites</a>
+        </div>
+      </section>
+
+      <ul class="stats" aria-label="Project at a glance">
+        <li><strong>15</strong><span>Project partners</span></li>
+        <li><strong>7</strong><span>Associated partners</span></li>
+        <li><strong>4</strong><span>Demonstration sites</span></li>
+        <li><strong>€20m / £17m</strong><span>Investment</span></li>
+      </ul>
+
+      <div class="about">
+        <section aria-labelledby="about-title">
+          <p class="eyebrow">Demonstration to transformation</p>
+          <h2 class="section-heading" id="about-title">About GEMINI</h2>
+          <p>Over four years the GEMINI project will help reduce greenhouse gas emissions associated with heat production — a goal central to EU, UK and Irish strategies to meet 2050 emissions targets.</p>
+          <p>Geothermal energy is a secure, local, near-zero emissions energy source suited to both urban and rural areas. GEMINI will use heat from the Earth in public buildings such as swimming pools, housing projects, utilities offices and a university campus.</p>
+          <p>Led by Codema and supported by PEACEPLUS (managed by SEUPB), endorsed by the Department for Climate, Energy and the Environment (Ireland) and the Department for the Economy (Northern Ireland).</p>
+        </section>
+
+        <section aria-labelledby="aims-title">
+          <h2 class="eyebrow" id="aims-title">Project aims</h2>
+          <ol class="aims">
+            <li><span class="num" aria-hidden="true">01</span>De-risk shallow and deep geothermal energy projects</li>
+            <li><span class="num" aria-hidden="true">02</span>Develop and support skilled jobs, policy and regulation for geothermal energy</li>
+            <li><span class="num" aria-hidden="true">03</span>Meaningful engagement in developing a clean, sustainable energy solution</li>
+          </ol>
+        </section>
+      </div>
+
+      <section class="pillars" id="demonstration-sites" aria-label="Demonstration sites">
+        <article class="pillar">
+          <p class="eyebrow">Less than 500m</p>
+          <h3>Shallow geothermal</h3>
+          <p>Systems at Sligo Regional Sports Centre and the NI Housing Executive Centre of Excellence, Belfast — near-zero emissions heat for public buildings, helping address fuel poverty.</p>
+        </article>
+        <article class="pillar">
+          <p class="eyebrow">Greater than 500m</p>
+          <h3>Deep geothermal</h3>
+          <p>A 2 km deep borehole at TU Dublin's Grangegorman campus to test a larger-scale heat network, plus data collection in the Antrim area to find future opportunities.</p>
+        </article>
+        <article class="pillar">
+          <p class="eyebrow">Long-term</p>
+          <h3>Inclusion &amp; prosperity</h3>
+          <p>Education, skills and training, research, toolkits for planners, public engagement, business models and policy support across the whole island.</p>
+        </article>
+      </section>
+
+      <section class="quotes" aria-label="Quotes">
+        <blockquote>
+          <p>“As an alternative to fossil fuels, geothermal energy has a pivotal role to play in decarbonising heat. The GEMINI project will demonstrate and promote the benefits of geothermal across the island.”</p>
+          <footer>Conor Murphy, Minister for the Economy, NI (2024–25)</footer>
+        </blockquote>
+        <blockquote>
+          <p>“The GEMINI project will do more than just deliver infrastructure in the short term. It will also build essential capacity in our planning, education, research and energy design systems.”</p>
+          <footer>Eamon Ryan, Minister, DECC, Ireland (2020–25)</footer>
+        </blockquote>
+      </section>
+    </main>
+  </div>
+
+  <div class="funders container">
+    <img src="assets/img/funders.png" alt="Gemini, PEACEPLUS Northern Ireland - Ireland co-funded by the European Union and UK Government, Northern Ireland Executive, and Government of Ireland logos" width="1400" height="204" loading="lazy">
+  </div>
+
+  <footer class="gemini-footer">
+    <div class="container">
+      <div>
+        <img src="assets/img/gemini-logo-white.png" alt="Gemini" width="720" height="191" loading="lazy">
+        <p>Encouraging the uptake of shallow and deep geothermal energy across the Island of Ireland.</p>
+      </div>
+      <div>
+        <h2>Funded by</h2>
+        <p>The PEACEPLUS Programme, managed by the Special EU Programmes Body (SEUPB).</p>
+      </div>
+      <div>
+        <h2>Contact</h2>
+        <p>Led by Codema · <a href="tel:+35317079818">01 707 9818</a></p>
+        <p><a href="https://www.geminigeothermal.com/">geminigeothermal.com</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
