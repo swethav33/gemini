@@ -613,3 +613,30 @@ blockquote footer {
 @media(max-width:720px){.feature-carousel{margin-top:26px}.feature-slide{grid-template-columns:1fr}.feature-slide>img{min-height:190px;max-height:220px}.feature-slide-panel{padding:24px 22px}.feature-slide-panel h3{font-size:25px}.carousel-track{min-height:0}.carousel-control{top:190px;width:38px;height:38px}.carousel-prev{left:10px}.carousel-next{right:10px}}
 /* Dublin article page */
 .article-banner{position:relative;margin-bottom:42px;padding:30px;color:var(--white);background:#34443b}.article-banner:before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(24,50,36,.92),rgba(24,50,36,.45))}.article-banner>*{position:relative}.article-banner .eyebrow{color:var(--green-eyebrow)}.article-banner .section-heading{max-width:780px;margin-bottom:14px;color:#fff}.article-lead{max-width:760px;margin:0 0 22px;font-size:22px}.article-banner img{width:100%;max-height:300px;object-fit:cover}.article-content{max-width:850px}.article-content .section-heading{margin:38px 0 16px;font-size:clamp(27px,3vw,36px)}.article-content p,.article-content li{color:var(--body);font-size:18px}.article-list{padding-left:24px}.article-list li{margin-bottom:10px}.article-callout{margin:30px 0;padding:24px 28px;border-left:5px solid var(--green);background:var(--green-tint)}.article-callout strong,.article-callout span{display:block}.article-callout strong{color:var(--green-dark);font-size:15px;text-transform:uppercase;letter-spacing:.1em}.article-callout span{margin:5px 0 10px;font-size:26px;font-weight:700}.article-callout p{margin:0}.article-note{margin:30px 0;padding:18px 20px;border:1px solid var(--line);font-size:15px!important}
+
+/* Carousel layout hardening: keep the feature as one compact two-column banner. */
+.feature-carousel { display:block !important; width:100%; max-width:100%; }
+.feature-carousel-heading { margin:0 0 14px !important; }
+.feature-carousel-heading .section-heading { font-size:clamp(25px,2.4vw,32px) !important; line-height:1.2 !important; margin:0 !important; }
+.feature-carousel .carousel-track { display:block !important; position:relative !important; min-height:320px !important; height:320px !important; overflow:hidden !important; }
+.feature-carousel .feature-slide { display:grid !important; grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr) !important; grid-template-rows:1fr !important; align-items:stretch !important; gap:0 !important; width:100% !important; height:320px !important; min-height:320px !important; margin:0 !important; padding:0 !important; }
+.feature-carousel .feature-slide[hidden] { display:none !important; }
+.feature-carousel .feature-slide > img { display:block !important; grid-column:1 !important; grid-row:1 !important; width:100% !important; height:320px !important; min-height:0 !important; max-height:none !important; object-fit:cover !important; }
+.feature-carousel .feature-slide-panel { grid-column:2 !important; grid-row:1 !important; display:flex !important; flex-direction:column !important; align-items:flex-start !important; justify-content:center !important; min-width:0 !important; height:320px !important; padding:28px 34px !important; overflow:hidden !important; color:#fff !important; background:#262828 !important; }
+.feature-carousel .feature-slide-panel .eyebrow { margin:0 0 12px !important; color:#a6e3a1 !important; font-size:12px !important; }
+.feature-carousel .feature-slide-panel h3 { margin:0 0 14px !important; color:#fff !important; font-size:clamp(22px,2.1vw,30px) !important; line-height:1.2 !important; }
+.feature-carousel .feature-slide-panel p:not(.eyebrow) { margin:0 0 20px !important; color:#f1f1f1 !important; font-size:15px !important; line-height:1.5 !important; }
+.feature-carousel .feature-slide-panel .button { display:inline-block !important; margin-top:0 !important; padding:12px 20px !important; color:#fff !important; background:#1f7a2d !important; text-decoration:none !important; }
+.feature-carousel .carousel-control { position:absolute !important; z-index:5 !important; top:50% !important; transform:translateY(-50%) !important; display:flex !important; align-items:center !important; justify-content:center !important; width:40px !important; height:40px !important; padding:0 !important; border:0 !important; border-radius:50% !important; color:#fff !important; background:#1f7a2d !important; font-size:27px !important; line-height:1 !important; cursor:pointer !important; }
+.feature-carousel .carousel-prev { left:12px !important; }
+.feature-carousel .carousel-next { right:12px !important; }
+.feature-carousel .carousel-dots { display:flex !important; align-items:center !important; justify-content:center !important; gap:9px !important; padding:13px 0 0 !important; }
+.feature-carousel .carousel-dots button { display:block !important; width:11px !important; height:11px !important; min-width:11px !important; padding:0 !important; border:1px solid #1f7a2d !important; border-radius:50% !important; background:#fff !important; appearance:none !important; cursor:pointer !important; }
+.feature-carousel .carousel-dots button.is-active { background:#1f7a2d !important; }
+@media(max-width:720px) {
+ .feature-carousel .carousel-track { height:auto !important; min-height:0 !important; }
+ .feature-carousel .feature-slide { display:grid !important; grid-template-columns:minmax(0,1fr) !important; grid-template-rows:190px auto !important; height:auto !important; min-height:0 !important; }
+ .feature-carousel .feature-slide > img { grid-column:1 !important; grid-row:1 !important; width:100% !important; height:190px !important; min-height:0 !important; }
+ .feature-carousel .feature-slide-panel { grid-column:1 !important; grid-row:2 !important; height:auto !important; min-height:245px !important; padding:22px !important; }
+ .feature-carousel .carousel-control { top:95px !important; }
+}
