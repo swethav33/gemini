@@ -14,7 +14,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap">
-  <link rel="stylesheet" href="assets/css/styles.css?v=carousel-fix-1">
+  <link rel="stylesheet" href="assets/css/styles.css?v=carousel-slides-2">
 </head>
 <body>
   <a class="skip-link" href="#main-content">Skip to main content</a>
@@ -47,8 +47,7 @@
     <ol>
       <li><a href="https://gsi.ie/">Geological Survey Ireland</a></li>
       <li><a href="https://gsi.ie/programmes-projects/">Programmes &amp; Projects</a></li>
-      <li><a href="https://gsi.ie/programmes-projects/geothermal-energy/">Geothermal Energy</a></li>
-      <li><span aria-current="page">GEMINI</span></li>
+      <li><span aria-current="page">Geothermal Energy</span></li>
     </ol>
   </nav>
 
@@ -58,7 +57,7 @@
       <ul>
         <li class="side-label">Projects</li>
         <li class="side-current">
-          <a href="./" aria-current="page">GEMINI</a>
+          <a href="./" aria-current="page">Geothermal Energy</a>
           <ul>
             <li><a href="#demonstration-sites">Demonstration sites</a></li>
           </ul>
@@ -80,37 +79,28 @@
     <!-- GEMINI page -->
     <main class="content" id="main-content">
       <section class="hero" aria-labelledby="hero-title">
-        <div class="hero-panel">
-          <div class="hero-meta">
-            <p class="eyebrow">GEMINI Project - an all island initiative</p>
-            <p class="eyebrow">PEACEPLUS funded · 2024 – 2028</p>
-          </div>
-          <h1 id="hero-title">Geothermal Energy Momentum on the Island of Ireland.</h1>
-          <p>A cross-border initiative showing how geothermal energy can play a practical, scalable role in decarbonising heat — across four demonstration sites.</p>
-          <a class="button" href="#demonstration-sites">Demonstration sites</a>
-        </div>
-      </section>
+        <h1 class="visually-hidden" id="hero-title">GEMINI — Geothermal Energy Momentum on the Island of Ireland</h1>
 
-      <!-- Featured GEMINI updates carousel -->
-      <section class="feature-carousel" aria-label="Latest GEMINI features">
-        <div class="feature-carousel-heading"><p class="eyebrow">GEMINI in action</p><h2 class="section-heading">Latest project features</h2></div>
-        <div class="carousel-track" aria-live="polite">
-          <article class="feature-slide is-active" data-slide="0" aria-roledescription="slide" aria-label="1 of 3">
-            <img src="assets/img/carousel-seismic.svg" alt="Illustration of a geophysical field team deploying seismic sensors">
-            <div class="feature-slide-panel"><p class="eyebrow">Upcoming fieldwork · Spring 2027</p><h3>Dublin will host its first-ever seismic survey in Spring 2027.</h3><p>Discover why the survey is planned and what seismic investigations can reveal about the geology beneath Dublin.</p><a class="button" href="dublin-seismic-survey.html">Click here to learn more</a></div>
-          </article>
-          <article class="feature-slide" data-slide="1" aria-roledescription="slide" aria-label="2 of 3" hidden>
-            <img src="assets/img/carousel-geothermal.svg" alt="Illustration of geothermal heat moving through underground rock layers towards a building">
-            <div class="feature-slide-panel"><p class="eyebrow">Demonstration &amp; innovation</p><h3>Exploring the potential of geothermal energy.</h3><p>GEMINI is bringing shallow and deep geothermal research together across four demonstration sites on the island of Ireland.</p><a class="button" href="#demonstration-sites">Explore the demonstration sites</a></div>
-          </article>
-          <article class="feature-slide" data-slide="2" aria-roledescription="slide" aria-label="3 of 3" hidden>
-            <img src="assets/img/carousel-mapping.svg" alt="Illustration of geological mapping and subsurface data">
-            <div class="feature-slide-panel"><p class="eyebrow">Research &amp; knowledge exchange</p><h3>Building a clearer picture of our geothermal resources.</h3><p>Research, data and shared expertise will help inform future geothermal development, planning and skills across the region.</p><a class="button" href="https://gsi.ie/programmes-projects/geothermal-energy/">Explore geothermal research</a></div>
-          </article>
-          <button class="carousel-control carousel-prev" type="button" aria-label="Previous feature">‹</button>
-          <button class="carousel-control carousel-next" type="button" aria-label="Next feature">›</button>
+        <!-- Featured GEMINI updates carousel -->
+        <div class="feature-carousel" role="region" aria-roledescription="carousel" aria-label="Latest GEMINI features">
+          <div class="carousel-track" aria-live="polite">
+            <article class="feature-slide is-active" data-slide="0" aria-roledescription="slide" aria-label="1 of 3">
+              <img class="feature-slide-logo" src="assets/img/gemini-logo.png" alt="Gemini — Geothermal Energy Momentum" width="720" height="191">
+              <div class="feature-slide-body"><p>The GSI is one of 15 project partners on the PEACEPLUS funded Gemini project which is a 20 million euro investment into geothermal energy on the island of Ireland. <a href="https://www.geminigeothermal.com/">Click here to find out more.</a></p></div>
+            </article>
+            <article class="feature-slide" data-slide="1" aria-roledescription="slide" aria-label="2 of 3" hidden>
+              <img class="feature-slide-top" src="assets/img/carousel-seismic-survey.jpg" alt="Diagram of a seismic survey: a vibrator truck sends sound waves into rock layers, which reflect back to a group of geophones and a recording truck">
+              <div class="feature-slide-body"><h2><a href="dublin-seismic-survey.html">Dublin will host its first-ever seismic survey in Spring 2027.</a></h2><p class="feature-slide-subtitle">Upcoming fieldwork · Spring 2027</p><p>Discover why the survey is planned and what seismic investigations can reveal about the geology beneath Dublin.</p></div>
+            </article>
+            <article class="feature-slide" data-slide="2" aria-roledescription="slide" aria-label="3 of 3" hidden>
+              <img src="assets/img/carousel-ucd-drilling.jpg" alt="A drilling rig on a fenced-off site at the UCD Belfield campus, with the campus water tower in the background">
+              <div class="feature-slide-body"><p>Drilling has commenced on the UCD Belfield campus in Dublin. This will be a scientific borehole amongst a series of 1km deep boreholes at strategic locations around Ireland to measure deep temperatures and to improve our understanding of geothermal resources. <a href="https://gsi.ie/programmes-projects/geothermal-energy/">Click here to find out more.</a></p></div>
+            </article>
+            <button class="carousel-control carousel-prev" type="button" aria-label="Previous feature">‹</button>
+            <button class="carousel-control carousel-next" type="button" aria-label="Next feature">›</button>
+          </div>
+          <div class="carousel-dots" role="group" aria-label="Choose a feature"><button type="button" class="is-active" aria-label="Show feature 1" aria-pressed="true"></button><button type="button" aria-label="Show feature 2" aria-pressed="false"></button><button type="button" aria-label="Show feature 3" aria-pressed="false"></button></div>
         </div>
-        <div class="carousel-dots" role="group" aria-label="Choose a feature"><button type="button" class="is-active" aria-label="Show feature 1" aria-pressed="true"></button><button type="button" aria-label="Show feature 2" aria-pressed="false"></button><button type="button" aria-label="Show feature 3" aria-pressed="false"></button></div>
       </section>
 
       <ul class="stats" aria-label="Project at a glance">
